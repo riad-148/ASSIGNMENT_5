@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo">
+      <img src="assets/github-logo.png" alt="GitHub Logo" />
+    </div>
+    <h1>GitHub Issues Tracker</h1>
+    <h3>Login to continue</h3>
+
+    <form id="login-form">
+      <input type="text" id="username" placeholder="Username" required />
+      <p>Default User: admin</p>
+      <input type="password" id="password" placeholder="Password" required />
+      <p>Default password: admin123</p>
+      <button type="submit">Sign In</button>
+    </form>
+
+    <p class="demo-credentials">Demo Credentials: <strong>admin / admin123</strong></p>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>
