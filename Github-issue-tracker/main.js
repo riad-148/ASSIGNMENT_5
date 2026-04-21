@@ -236,6 +236,12 @@ function closeModal() {
   document.getElementById("m").style.display = "none";
 }
 
+window.addEventListener('click', function (event) {
+  const modal = document.getElementById("m");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+});
 
 
 
