@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
 function loadIssues(status) {
   const container = document.getElementById("issues");
   container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
@@ -76,4 +77,71 @@ function searchIssues() {
       container.innerHTML = '<p>Error searching issues. Please try again.</p>';
     });
 }
+function displayIssues(issues) {
+  const container = document.getElementById("issues");
+  container.innerHTML = '';
+
+  issues.forEach(issue => {
+    const card = document.createElement('div');
+    card.classList.add('issue-card', issue.status);
+
+    const cardStatusClass = issue.status === 'open' ? 'open' : 'closed';
+    card.classList.add(cardStatusClass);
+
+    const labelsHtml = issue.labels.map(label => `<span class="label">${label}</span>`).join(' ');
+    const createdDate = new Date(issue.createdAt).toLocaleDateString();
+
+    card.dataset.issueId = issue.id;
+
+    card.innerHTML = `
+      <div class="priority ${issue.priority.toLowerCase()}">${issue.priority.toUpperCase()}</div>
+
+      <div class="card-top-row">
+        <span class="status-pill ${issue.status}">
+          ${issue.status.charAt(0).toUpperCase() + issue.status.slice(1)}
+        </span>
+        <span class="created-date">${createdDate}</span>
+      </div>
+
+      <h3>${issue.title}</h3>
+      <p>${issue.description}</p>
+
+      <div class="card-meta">
+        <span class="card-author">${issue.author}</span>
+        <span class="card-labels">${labelsHtml}</span>
+      </div>
+
+      <button type="button" class="view-details" data-issue-id="${issue.id}">
+        View Details
+      </button>
+    `;
+
+    card.classList.add('clickable');
+    container.appendChild(card);
+  });
+}
+
+
+function updateIssueCount(count) {
+  document.getElementById('issue-count').textContent = count;
+}
+
+
+function setActiveTab(tab) {
+  document.querySelectorAll('.tab')
+    .forEach(tabBtn => tabBtn.classList.remove('active'));
+
+  const activeTab = document.getElementById(`${tab}-tab`);
+  if (activeTab) {
+    activeTab.classList.add('active');
+  }
+}
+
+
+function handleTabClick(status) {
+  loadIssues(status);
+  setActiveTab(status);
+}
+
+
 
