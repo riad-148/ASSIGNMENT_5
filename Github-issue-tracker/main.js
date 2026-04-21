@@ -142,6 +142,101 @@ function handleTabClick(status) {
   loadIssues(status);
   setActiveTab(status);
 }
+function showModal(id) {
+  console.log('showModal called with id:', id);
+
+  // Reset loading state
+  document.getElementById("title").innerText = "Loading...";
+  document.getElementById("num").innerText = "";
+  document.getElementById("statusb").innerHTML = "";
+  document.getElementById("author").innerText = "";
+  document.getElementById("created").innerText = "";
+  document.getElementById("desc").innerText = "";
+  document.getElementById("labels").innerHTML = "";
+  document.getElementById("assignee").innerHTML = "";
+  document.getElementById("priority").innerHTML = "";
+  document.getElementById("createdTime").innerText = "";
+  document.getElementById("updatedTime").innerText = "";
+
+  document.getElementById("m").style.display = "block";
+
+  fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
+    .then(response => response.json())
+    .then(data => {
+      const issue = data.data || data;
+
+      // Header
+      document.getElementById("title").innerText = issue.title;
+      document.getElementById("num").innerText = `#${issue.id}`;
+
+      // Status
+      const statusBadge = document.getElementById("statusb");
+      statusBadge.innerHTML = `
+        <span class="issue-status-large ${issue.status}">
+          ${issue.status.charAt(0).toUpperCase() + issue.status.slice(1)}
+        </span>
+      `;
+
+      // Meta
+      document.getElementById("author").innerHTML =
+        `<span class="author-avatar">${issue.author.charAt(0).toUpperCase()}</span> ${issue.author} opened this issue`;
+
+      document.getElementById("created").innerText =
+        new Date(issue.createdAt).toLocaleDateString();
+
+      // Description
+      document.getElementById("desc").innerText = issue.description;
+
+      // Labels
+      const labelsSection = document.getElementById("labels");
+      if (Array.isArray(issue.labels) && issue.labels.length > 0) {
+        labelsSection.innerHTML = `
+          <div class="labels-header">Labels</div>
+          <div class="labels-list">
+            ${issue.labels.map(label => `<span class="label-large">${label}</span>`).join('')}
+          </div>
+        `;
+      }
+
+      // Assignee
+      const assigneeSidebar = document.getElementById("assignee");
+      if (issue.assignee && issue.assignee !== "") {
+        assigneeSidebar.innerHTML = `
+          <div class="assignee-item">
+            <span class="assignee-avatar">${issue.assignee.charAt(0).toUpperCase()}</span>
+            ${issue.assignee}
+          </div>
+        `;
+      } else {
+        assigneeSidebar.innerHTML = `<div class="no-assignee">No one assigned</div>`;
+      }
+
+      // Priority
+      document.getElementById("priority").innerHTML = `
+        <span class="priority-indicator ${issue.priority}">
+          ${issue.priority.charAt(0).toUpperCase() + issue.priority.slice(1)}
+        </span>
+      `;
+
+      // Timeline
+      document.getElementById("createdTime").innerText =
+        new Date(issue.createdAt).toLocaleString();
+
+      document.getElementById("updatedTime").innerText =
+        new Date(issue.updatedAt).toLocaleString();
+    })
+    .catch(error => {
+      console.error('Error fetching issue details:', error);
+      document.getElementById("title").innerText = "Error loading issue details";
+    });
+}
+
+
+function closeModal() {
+  document.getElementById("m").style.display = "none";
+}
+
+
 
 
 
