@@ -87,3 +87,51 @@ button:hover {
   color: #586069;
   margin-top: 16px;
 }
+
+.navbar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  background-color: #24292e;
+  padding: 16px 20px;
+  color: white;
+  gap: 12px;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+#search {
+  padding: 8px 12px;
+  border: 1px solid #586069;
+  border-radius: 6px;
+  background-color: #f6f8fa;
+  color: #24292e;
+  font-size: 14px;
+  width: 100%;
+  max-width: 300px;
+}
+
+#search:focus {
+  outline: none;
+  border-color: #0366d6;
+  box-shadow: 0 0 0 2px rgba(3, 102, 214, 0.2);
+}
+
+.navbar button {
+  padding: 8px 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+.navbar button:hover {
+  background-color: #218838;
+}

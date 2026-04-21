@@ -28,3 +28,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+function loadIssues(status) {
+  const container = document.getElementById("issues");
+  container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+  fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues')
+    .then(response => response.json())
+    .then(data => {
+      allIssues = data.data;
+
+      const filteredIssues =
+        status === 'all'
+          ? allIssues
+          : allIssues.filter(issue => issue.status === status);
+
+      displayIssues(filteredIssues);
+      updateIssueCount(filteredIssues.length);
+    })
+    .catch(error => {
+      console.error("Error fetching data: ", error);
+      container.innerHTML = '<p>Error loading issues. Please try again.</p>';
+    });
+}
+
+
+function searchIssues() {
+  const query = document.getElementById("search").value.trim();
+
+  if (query === '') {
+    displayIssues(allIssues);
+    updateIssueCount(allIssues.length);
+    return;
+  }
+
+  const container = document.getElementById("issues");
+  container.innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+
+  fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${encodeURIComponent(query)}`)
+    .then(response => response.json())
+    .then(data => {
+      const searchResults = data.data || [];
+      displayIssues(searchResults);
+      updateIssueCount(searchResults.length);
+    })
+    .catch(error => {
+      console.error("Error searching issues: ", error);
+      container.innerHTML = '<p>Error searching issues. Please try again.</p>';
+    });
+}
+

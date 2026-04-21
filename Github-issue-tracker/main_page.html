@@ -15,5 +15,26 @@
     <input type="text" id="search" placeholder="Search Issues..." />
     <button onclick="searchIssues()">Search</button>
   </div>
+   <div class="tabs">
+    <button class="tab" id="all-tab" onclick="handleTabClick('all')">All</button>
+    <button class="tab" id="open-tab" onclick="handleTabClick('open')">Open</button>
+    <button class="tab" id="closed-tab" onclick="handleTabClick('closed')">Closed</button>
+  </div>
+ <div class="issues-summary">
+    <div class="summary-icon">
+      <img src="assets/Aperture.png" alt="">
+    </div>
+
+    <div class="summary-text">
+      <span id="issue-count">0</span> issues found
+      <p>Track and manage your project issues</p>
+    </div>
+
+    <div class="status-markers">
+      <span class="marker open">● Open</span>
+      <span class="marker closed">● Closed</span>
+    </div>
+  </div>
+
 </body>
 </html>
